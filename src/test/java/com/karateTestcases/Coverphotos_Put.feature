@@ -4,6 +4,7 @@ Feature: API testing for CoverPhotos
   Background: 
     * url 'https://fakerestapi.azurewebsites.net'
     * path '/api/v1/CoverPhotos'
+    * def requestPayload = read('classpath:requestPayload/updateCoverphotosRequest.json')
     
     Scenario: verify update coverphotos with valid data
     Given path '/18'
@@ -21,15 +22,10 @@ Feature: API testing for CoverPhotos
     And match response.idBook == 7879
     And match response.url == "https://placeholdjkjkjhkjhkh"
     
+    @todays
     Scenario: verify response code when update coverphotos with valid data
-    Given path '/18'
-    And request 
-   			 """{
-   			 
-         		 "id": 18,
-         		 "idBook": 7879,
-          		"url": "https://placeholdjkjkjhkjhkh"
-          }"""
+    Given path '/144'
+    And request requestPayload
     When method PUT
     Then status 200
     * print response

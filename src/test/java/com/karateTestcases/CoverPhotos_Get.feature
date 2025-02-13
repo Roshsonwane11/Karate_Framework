@@ -3,10 +3,16 @@ Feature: API testing for CoverPhotos
   Background: 
     * url 'https://fakerestapi.azurewebsites.net'
     * path '/api/v1/CoverPhotos'
+    * def expectedEntireResponse = read('classpath:responsePayload/getCoverphotosEntirerResponse.json')
+    * def expectedResponseSingleObject = read('classpath:responsePayload/getCoverphotosSingleObjectFromResponse.json')
+  
 
+@todays
   Scenario: verify get all list of coverphoto when request is valid
     Given method GET
     Then status 200
+    * def actualResponse = response
+    And match actualResponse == expectedEntireResponse
     * print response
 
   Scenario: verify when request is valid then status code is 200
@@ -21,20 +27,14 @@ Feature: API testing for CoverPhotos
     And match response[0].url == "https://placeholdit.imgix.net/~text?txtsize=33&txt=Book 1&w=250&h=350"
     * print response
 
+@todays
   Scenario: Verify valid coverphoto details are getting for valid user id
     Given path '45'
     When method GET
     Then status 200
-    * def expectedResponse =
-      """{
-          "id": 45,
-          "idBook": 45,
-          "url": "https://placeholdit.imgix.net/~text?txtsize=33&txt=Book 45&w=250&h=350"
-         }"""
-     
-    * def actualresponse = response
-    And match actualresponse == expectedResponse
-    * print actualresponse
+    * def actualResponse = response
+    And match actualResponse == expectedResponseSingleObject
+    * print actualResponse
 
   Scenario: verify get all list of coverphoto when url is invalid
     Given path '/fefefogghkhkjiijejfoi'

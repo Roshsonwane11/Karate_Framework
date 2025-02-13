@@ -3,24 +3,19 @@ Feature: API testing for CoverPhotos
   Background: 
     * url 'https://fakerestapi.azurewebsites.net'
     * path '/api/v1/CoverPhotos'
+    * def requestPayload = read('classpath:requestPayload/createCoverphotosRequestvalid.json')
+    * def responsePayloadForNewUser = read('classpath:responsePayload/createCoverphotosResponseForNewUser.json')
     
     
+    @todays
     Scenario: verify create coverphotos
-    Given request 
-   			 """{
-   			 
-         		 "id": 7879,
-         		 "idBook": 7879,
-          		"url": "https://placeholdit.imgix.net/~text?txtsize=33&txt=Book 7879&w=250&h=350"
-          }"""
+    Given request requestPayload
     When method post
     Then status 200
+      And match response == responsePayloadForNewUser
     * print response
-    And match response.id == 7879
-    And match response.idBook == 7879
-    And match response.url == "https://placeholdit.imgix.net/~text?txtsize=33&txt=Book 7879&w=250&h=350"
-    
-    
+  
+   
     Scenario: verify new user should not be able to create coverphotos when missing required filed
     Given request 
    			 """{

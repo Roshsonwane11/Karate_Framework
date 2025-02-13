@@ -5,7 +5,8 @@ Feature: Get all Users List
     * path '/api/v1/Users/'
     * def expectedResponse = read('classpath:responsePayload/userEntireResponse.json')
     * def expectedResponseSingleObject = read('classpath:responsePayload/userSingleObjectFromResponse.json')
-  
+    
+
   Scenario: Verify all list of users is getting if request is valid
     Given method GET
     Then status 200
